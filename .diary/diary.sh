@@ -18,7 +18,14 @@ HELP
 _diary_push() {
   # Push, and if GitHub has newer changes (e.g. a retro saved by the extension), pull and retry.
   git -C "$1" push -q >/dev/null 2>&1 && return 0
-  git -C "$1" pull --rebase --autostash -q >/dev/null 2>&1 && git -C "$1" push -q >/dev/null 2>&1
+  _diary_pull "$1" && git -C "$1" push -q >/dev/null 2>&1
+}
+
+_diary_pull() {
+  # If the pull hits a conflict, undo it so the repo isn't left halfway through a rebase.
+  git -C "$1" pull --rebase --autostash -q >/dev/null 2>&1 && return 0
+  git -C "$1" rebase --abort >/dev/null 2>&1
+  return 1
 }
 
 _diary_commit_and_push() {
@@ -54,7 +61,7 @@ diary() {
   esac
 
   # Get any changes from GitHub first (the extension saves there directly).
-  git -C "$repo" pull --rebase --autostash -q >/dev/null 2>&1 || true
+  _diary_pull "$repo" || true
 
   mkdir -p "$repo/entries"
   [ -f "$file" ] || printf '# %s\n' "$(date '+%A %-d %B %Y')" > "$file"
