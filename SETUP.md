@@ -25,6 +25,8 @@ You need:
 3. Choose **Private**. Your diary is just for you.
 4. Click **Create repository**.
 
+You can use a different name if you like. Just use it instead of `dev-academy-diary` in the steps below.
+
 ## 2. Clone it to your laptop
 
 In your terminal, run this. Change `YOUR-USERNAME` to your GitHub username:
