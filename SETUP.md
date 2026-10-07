@@ -39,9 +39,14 @@ If you see `Permission denied (publickey)`, your SSH key isn't set up yet. Ask a
 
 ## 3. Install the `diary` command
 
+Go into your diary folder and run the installer:
+
 ```bash
-bash ~/dev-academy-diary/install.sh
+cd ~/dev-academy-diary
+bash install.sh
 ```
+
+If you cloned it somewhere else, `cd` into that folder instead. The `diary` command works wherever your diary is.
 
 **Open a new terminal window**, then try it:
 
@@ -57,7 +62,7 @@ The extension is already in your diary, in the `extension` folder.
 
 1. In Chrome, go to `chrome://extensions`.
 2. Turn on **Developer mode** (top right).
-3. Click **Load unpacked** and choose the `extension` folder inside `dev-academy-diary` (in your home folder).
+3. Click **Load unpacked** and choose the `extension` folder inside your diary folder.
 4. Click the puzzle icon in the toolbar, then the pin next to **Dev Academy Diary**.
 
 Chrome loads the extension from that folder, so don't move or delete it.
@@ -106,8 +111,8 @@ When something in a retro would make a good interview answer, copy it into [stor
 
 | What you see | What to do |
 |---|---|
-| `diary: command not found` | Open a new terminal window. If it still happens, run `bash ~/dev-academy-diary/install.sh` again. |
-| `Can't find your diary repo` | Your repo isn't at `~/dev-academy-diary`. Go into the folder where you cloned it and run `bash install.sh`, then open a new terminal. |
+| `diary: command not found` | Open a new terminal window. If it still happens, go into your diary folder and run `bash install.sh` again. |
+| `Can't find your diary repo` | Your diary folder has moved since you installed. Go into the folder where it is now and run `bash install.sh`, then open a new terminal. |
 | `Saved on this laptop. It will go to GitHub next time...` | You're offline, or GitHub couldn't be reached. Your note is safe. Run `diary sync` later. |
 | Extension: `Your GitHub token isn't working` | Your token has probably expired. Make a new one (step 5 above) and paste it into the extension settings. |
 | Extension: `Your token can't write to this repo` | Edit your token on GitHub and set **Contents** to **Read and write**. |
