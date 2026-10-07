@@ -1,5 +1,8 @@
 # 📓 My Dev Academy Diary
 
+> [!NOTE]
+> **New here?** Follow [SETUP.md](SETUP.md) to create your own diary from this template. It takes about 15 minutes. Once you're set up, you can delete this note.
+
 > [!TIP]
 > **My action this week:** <!-- action:start -->_Your action from the Friday retro will appear here._<!-- action:end -->
 
@@ -19,4 +22,4 @@ My STAR stories for job interviews are in [stories.md](stories.md).
 
 ---
 
-<sub>New here? See [SETUP.md](SETUP.md) to get the `diary` command working.</sub>
+<sub>Commands, the Chrome extension and help when something goes wrong: [SETUP.md](SETUP.md)</sub>
