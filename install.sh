@@ -22,8 +22,15 @@ if [ ${#configs[@]} -eq 0 ]; then
 fi
 
 for rc in "${configs[@]}"; do
-  if [ -f "$rc" ] && grep -qF "$MARKER" "$rc"; then
+  if [ -f "$rc" ] && grep -qF "export DIARY_REPO=\"$REPO\"" "$rc"; then
     echo "Already installed in $rc"
+  elif [ -f "$rc" ] && grep -qF "$MARKER" "$rc"; then
+    # Installed from another folder (the repo was moved or cloned again): point it here instead.
+    tmp="$(mktemp)"
+    grep -vF -e "# Dev Academy Diary" -e "export DIARY_REPO=" -e "$MARKER" "$rc" > "$tmp" || true
+    cat "$tmp" > "$rc" && rm -f "$tmp"
+    printf '%s\n' "$BLOCK" >> "$rc"
+    echo "Updated the diary command in $rc to use $REPO"
   else
     printf '%s\n' "$BLOCK" >> "$rc"
     echo "Added the diary command to $rc"
