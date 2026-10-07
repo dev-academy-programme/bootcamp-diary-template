@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+  <meta charset="utf-8">
+  <title>Dev Academy Diary</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body { width: 380px; padding: 1rem; }
+  </style>
+</head>
+<body>
+  <div class="head">
+    <img src="icons/icon48.png" alt="">
+    <h1>Dev Academy Diary</h1>
+    <button class="link-btn" id="openSettings">Settings</button>
+  </div>
+
+  <section id="setup" hidden>
+    <p>Let's connect your diary repo first. It takes about 3 minutes.</p>
+    <div class="row"><button class="btn primary" id="startSetup">Set up</button></div>
+  </section>
+
+  <section id="main" hidden>
+    <p class="muted" id="repoName"></p>
+
+    <div class="action-card" id="actionCard" hidden>
+      <span class="action-label">🎯 My action this week</span>
+      <span id="actionText"></span>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="What to save">
+      <button class="tab" role="tab" id="tab-note" aria-controls="panel-note" aria-selected="true">Quick note</button>
+      <button class="tab" role="tab" id="tab-retro" aria-controls="panel-retro" aria-selected="false" tabindex="-1">Retro notes</button>
+    </div>
+
+    <div role="tabpanel" id="panel-note" aria-labelledby="tab-note">
+      <fieldset class="kinds">
+        <legend>Type of note</legend>
+        <label><input type="radio" name="kind" value="note" checked> 📝 Note</label>
+        <label><input type="radio" name="kind" value="learned"> 💡 Learned</label>
+        <label><input type="radio" name="kind" value="stuck"> 🧱 Stuck</label>
+        <label><input type="radio" name="kind" value="win"> 🎉 Win</label>
+      </fieldset>
+
+      <label for="note">Your note</label>
+      <input id="note" placeholder="e.g. How useEffect cleanup works" autocomplete="off">
+      <p class="path" id="notePath"></p>
+
+      <div class="row">
+        <button class="btn primary" id="saveNote">Add note</button>
+      </div>
+      <div class="status" id="noteStatus" role="status" aria-live="polite"></div>
+    </div>
+
+    <div role="tabpanel" id="panel-retro" aria-labelledby="tab-retro" hidden>
+      <label for="notes">Paste your retro notes</label>
+      <textarea id="notes" placeholder="On the retro page, click &quot;Copy my notes&quot;, then paste here."></textarea>
+
+      <label for="date">Retro date</label>
+      <input type="date" id="date">
+      <p class="path" id="path"></p>
+
+      <div class="row">
+        <button class="btn primary" id="save">Save to my diary</button>
+      </div>
+      <div class="status" id="status" role="status" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

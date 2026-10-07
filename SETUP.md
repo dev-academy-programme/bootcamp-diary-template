@@ -51,12 +51,14 @@ You should see `Saved to 💡 Learned ✓`. Open your repo on GitHub and you'll 
 
 ## 4. Install the Chrome extension
 
-1. Download `dev-academy-diary-extension.zip` from the **Releases** section of this template's GitHub page (on the right side).
-2. Unzip it and move the folder somewhere you won't delete it, like your Documents folder. Chrome loads the extension from this folder, so it has to stay there.
-3. In Chrome, go to `chrome://extensions`.
-4. Turn on **Developer mode** (top right).
-5. Click **Load unpacked** and choose the unzipped folder.
-6. Click the puzzle icon in the toolbar, then the pin next to **Dev Academy Diary**.
+The extension is already in your diary, in the `extension` folder.
+
+1. In Chrome, go to `chrome://extensions`.
+2. Turn on **Developer mode** (top right).
+3. Click **Load unpacked** and choose the `extension` folder inside `dev-academy-diary` (in your home folder).
+4. Click the puzzle icon in the toolbar, then the pin next to **Dev Academy Diary**.
+
+Chrome loads the extension from that folder, so don't move or delete it.
 
 ## 5. Connect the extension to your diary
 
@@ -108,4 +110,4 @@ When something in a retro would make a good interview answer, copy it into [stor
 | Extension: `Your GitHub token isn't working` | Your token has probably expired. Make a new one (step 5 above) and paste it into the extension settings. |
 | Extension: `Your token can't write to this repo` | Edit your token on GitHub and set **Contents** to **Read and write**. |
 | Extension: `Can't find your diary repo` | Check the repo name in the extension settings is `YOUR-USERNAME/dev-academy-diary`, and that your token has access to that repo. |
-| The extension disappeared from Chrome | You may have moved or deleted its folder. Load it again (step 4). |
+| The extension disappeared from Chrome | You may have moved or deleted your diary folder. Load it again (step 4). |
