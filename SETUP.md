@@ -118,3 +118,15 @@ When something in a retro would make a good interview answer, copy it into [stor
 | Extension: `Your token can't write to this repo` | Edit your token on GitHub and set **Contents** to **Read and write**. |
 | Extension: `Can't find your diary repo` | Check the repo name in the extension settings is `YOUR-USERNAME/dev-academy-diary`, and that your token has access to that repo. |
 | The extension disappeared from Chrome | You may have moved or deleted your diary folder. Load it again (step 4). |
+
+## Removing the diary command
+
+You don't need to remove it. It only runs when you type `diary`, and if you delete your diary folder it simply stops working.
+
+To remove it completely:
+
+1. Open your shell config in VS Code: `code ~/.zshrc` (or `code ~/.bashrc` if you use bash).
+2. Delete the three lines under `# Dev Academy Diary`, and save.
+3. Open a new terminal window.
+
+To remove the extension, go to `chrome://extensions` and click **Remove** on its card.

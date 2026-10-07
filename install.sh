@@ -7,7 +7,8 @@ MARKER=".diary/diary.sh"
 BLOCK="
 # Dev Academy Diary
 export DIARY_REPO=\"$REPO\"
-source \"$REPO/$MARKER\""
+if [ -f \"$REPO/$MARKER\" ]; then source \"$REPO/$MARKER\"; fi"
+# The if means a deleted diary folder just turns the command off, with no error in every new terminal.
 
 configs=()
 [ -f "$HOME/.zshrc" ] && configs+=("$HOME/.zshrc")
