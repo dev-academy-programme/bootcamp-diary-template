@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Dev Academy Diary",
   "version": "0.1.0",
-  "description": "Save your Friday retro notes to your Dev Academy diary on GitHub.",
+  "description": "Save quick notes and Friday retro notes to your Dev Academy diary on GitHub.",
   "action": {
     "default_popup": "popup.html",
     "default_title": "Dev Academy Diary",
