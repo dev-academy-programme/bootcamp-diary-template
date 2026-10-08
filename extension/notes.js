@@ -36,3 +36,23 @@ export function addNote(file, { kind = "note", text, date = new Date() }) {
   lines.splice(last + 1, 0, line);
   return `${lines.join("\n")}\n`;
 }
+
+export const JOURNAL = "📓 Journal";
+
+// Adds a journal entry ("### HH:MM" then the text, line breaks kept) to the end of the Journal section.
+export function addJournal(file, { text, date = new Date() }) {
+  const section = `## ${JOURNAL}`;
+  const entry = [`### ${timeStamp(date)}`, ...text.trim().replace(/\r\n?/g, "\n").split("\n")];
+  const content = file ?? `${dayHeading(date)}\n`;
+
+  const lines = content.replace(/\n$/, "").split("\n");
+  const start = lines.indexOf(section);
+  if (start === -1) return `${lines.join("\n")}\n\n${section}\n\n${entry.join("\n")}\n`;
+
+  let last = start;
+  for (let i = start + 1; i < lines.length && !lines[i].startsWith("## "); i++) {
+    if (lines[i] !== "") last = i;
+  }
+  lines.splice(last + 1, 0, "", ...entry);
+  return `${lines.join("\n")}\n`;
+}

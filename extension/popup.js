@@ -1,17 +1,20 @@
 import { getFile, putFile } from "./github.js";
 import { extractAction, updateReadme, currentAction, localDate } from "./retro.js";
-import { addNote, SECTIONS } from "./notes.js";
+import { addNote, addJournal, SECTIONS, JOURNAL } from "./notes.js";
 
 const $ = id => document.getElementById(id);
 const els = {
   setup: $("setup"), main: $("main"), repoName: $("repoName"),
   actionCard: $("actionCard"), actionText: $("actionText"),
   note: $("note"), notePath: $("notePath"), saveNote: $("saveNote"), noteStatus: $("noteStatus"),
+  journal: $("journal"), journalPath: $("journalPath"), saveJournal: $("saveJournal"), journalStatus: $("journalStatus"),
   notes: $("notes"), date: $("date"), path: $("path"),
   save: $("save"), status: $("status")
 };
-const tabs = { note: $("tab-note"), retro: $("tab-retro") };
-const panels = { note: $("panel-note"), retro: $("panel-retro") };
+const tabs = { note: $("tab-note"), journal: $("tab-journal"), retro: $("tab-retro") };
+const panels = { note: $("panel-note"), journal: $("panel-journal"), retro: $("panel-retro") };
+const tabNames = Object.keys(tabs);
+const tabInputs = { note: els.note, journal: els.journal, retro: els.notes };
 
 let settings = null;
 let confirmReplace = false;
@@ -53,8 +56,32 @@ function selectTab(name, { focus = false } = {}) {
     panels[key].hidden = !selected;
   }
   if (focus) tabs[name].focus();
-  else (name === "note" ? els.note : els.notes).focus();
+  else tabInputs[name].focus();
   chrome.storage.local.set({ tab: name });
+}
+
+// ---- Today's file (quick notes and journal) ----
+
+// Reads today's file, changes it and saves it back.
+// If the terminal command saved to the same file a moment ago, GitHub rejects the old version, so read it again and retry.
+async function updateTodaysFile(change) {
+  const date = localDate();
+  const path = entryPathFor(date);
+  for (let attempt = 1; ; attempt++) {
+    const existing = await getFile({ ...settings, path });
+    try {
+      await putFile({
+        ...settings, path,
+        content: change(existing?.content ?? null),
+        sha: existing?.sha,
+        message: `Diary: ${date}`
+      });
+      return;
+    } catch (err) {
+      if (attempt < 3 && (err.status === 409 || err.status === 422)) continue;
+      throw err;
+    }
+  }
 }
 
 // ---- Quick note ----
@@ -68,29 +95,12 @@ async function saveNote() {
     return;
   }
   const kind = selectedKind();
-  const date = localDate();
-  const path = entryPathFor(date);
 
   els.saveNote.disabled = true;
   showStatus(els.noteStatus, "warn", "Saving…");
 
   try {
-    // If the terminal command saved to the same file a moment ago, GitHub rejects the old version. Read it again and retry.
-    for (let attempt = 1; ; attempt++) {
-      const existing = await getFile({ ...settings, path });
-      try {
-        await putFile({
-          ...settings, path,
-          content: addNote(existing?.content ?? null, { kind, text }),
-          sha: existing?.sha,
-          message: `Diary: ${date}`
-        });
-        break;
-      } catch (err) {
-        if (attempt < 3 && (err.status === 409 || err.status === 422)) continue;
-        throw err;
-      }
-    }
+    await updateTodaysFile(file => addNote(file, { kind, text }));
 
     els.note.value = "";
     await chrome.storage.local.remove("noteDraft");
@@ -100,6 +110,30 @@ async function saveNote() {
     showStatus(els.noteStatus, "error", err.message || "Something went wrong. Please try again.");
   } finally {
     els.saveNote.disabled = false;
+  }
+}
+
+// ---- Journal ----
+
+async function saveJournal() {
+  const text = els.journal.value.trim();
+  if (!text) {
+    showStatus(els.journalStatus, "warn", "Write your entry first.");
+    return;
+  }
+
+  els.saveJournal.disabled = true;
+  showStatus(els.journalStatus, "warn", "Saving…");
+
+  try {
+    await updateTodaysFile(file => addJournal(file, { text }));
+    els.journal.value = "";
+    await chrome.storage.local.remove("journalDraft");
+    showStatus(els.journalStatus, "ok", `Saved to ${JOURNAL} ✓`);
+  } catch (err) {
+    showStatus(els.journalStatus, "error", err.message || "Something went wrong. Please try again.");
+  } finally {
+    els.saveJournal.disabled = false;
   }
 }
 
@@ -180,7 +214,7 @@ async function save() {
 // ---- Start ----
 
 async function init() {
-  const stored = await chrome.storage.local.get(["token", "repo", "draft", "noteDraft", "action", "tab"]);
+  const stored = await chrome.storage.local.get(["token", "repo", "draft", "noteDraft", "journalDraft", "action", "tab"]);
   if (!stored.token || !stored.repo) {
     els.setup.hidden = false;
     return;
@@ -194,12 +228,14 @@ async function init() {
 
   els.note.value = stored.noteDraft || "";
   els.notePath.textContent = `Saves to ${entryPathFor(localDate())}`;
+  els.journal.value = stored.journalDraft || "";
+  els.journalPath.textContent = `Saves to ${entryPathFor(localDate())} · ⌘/Ctrl + Enter to save`;
   els.notes.value = stored.draft || "";
   els.date.value = localDate();
   updatePath();
 
-  // An unsaved retro paste wins, so it isn't hidden behind the other tab.
-  selectTab(stored.draft ? "retro" : stored.tab === "retro" ? "retro" : "note");
+  // Unsaved writing wins, so it isn't hidden behind another tab.
+  selectTab(stored.draft ? "retro" : stored.journalDraft ? "journal" : tabNames.includes(stored.tab) ? stored.tab : "note");
 }
 
 // Keep what they typed if the popup closes before saving.
@@ -212,6 +248,16 @@ els.note.addEventListener("keydown", e => {
 });
 els.saveNote.addEventListener("click", saveNote);
 
+els.journal.addEventListener("input", () => {
+  chrome.storage.local.set({ journalDraft: els.journal.value });
+  clearStatus(els.journalStatus);
+});
+// Enter makes a new line in the journal, so saving is Cmd/Ctrl + Enter.
+els.journal.addEventListener("keydown", e => {
+  if (e.key === "Enter" && (e.metaKey || e.ctrlKey) && !e.isComposing) saveJournal();
+});
+els.saveJournal.addEventListener("click", saveJournal);
+
 els.notes.addEventListener("input", () => {
   chrome.storage.local.set({ draft: els.notes.value });
   resetConfirm();
@@ -222,7 +268,9 @@ els.save.addEventListener("click", save);
 for (const [name, tab] of Object.entries(tabs)) {
   tab.addEventListener("click", () => selectTab(name));
   tab.addEventListener("keydown", e => {
-    if (e.key === "ArrowLeft" || e.key === "ArrowRight") selectTab(name === "note" ? "retro" : "note", { focus: true });
+    if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+    const step = e.key === "ArrowRight" ? 1 : -1;
+    selectTab(tabNames[(tabNames.indexOf(name) + step + tabNames.length) % tabNames.length], { focus: true });
   });
 }
 

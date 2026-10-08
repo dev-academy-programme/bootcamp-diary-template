@@ -49,6 +49,7 @@ input, textarea {
   padding: 0.5rem 0.65rem;
 }
 textarea { min-height: 170px; resize: vertical; font-family: ui-monospace, Menlo, monospace; font-size: 0.85rem; }
+textarea.journal { min-height: 220px; font-family: inherit; font-size: 0.95rem; line-height: 1.5; }
 input[type="date"] { width: auto; }
 
 .btn {

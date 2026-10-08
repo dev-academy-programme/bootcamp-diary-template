@@ -30,6 +30,7 @@
 
     <div class="tabs" role="tablist" aria-label="What to save">
       <button class="tab" role="tab" id="tab-note" aria-controls="panel-note" aria-selected="true">Quick note</button>
+      <button class="tab" role="tab" id="tab-journal" aria-controls="panel-journal" aria-selected="false" tabindex="-1">Journal</button>
       <button class="tab" role="tab" id="tab-retro" aria-controls="panel-retro" aria-selected="false" tabindex="-1">Retro notes</button>
     </div>
 
@@ -50,6 +51,17 @@
         <button class="btn primary" id="saveNote">Add note</button>
       </div>
       <div class="status" id="noteStatus" role="status" aria-live="polite"></div>
+    </div>
+
+    <div role="tabpanel" id="panel-journal" aria-labelledby="tab-journal" hidden>
+      <label for="journal">Write about your day</label>
+      <textarea id="journal" class="journal" placeholder="How did today go? What felt hard, and what felt good?"></textarea>
+      <p class="path" id="journalPath"></p>
+
+      <div class="row">
+        <button class="btn primary" id="saveJournal">Save entry</button>
+      </div>
+      <div class="status" id="journalStatus" role="status" aria-live="polite"></div>
     </div>
 
     <div role="tabpanel" id="panel-retro" aria-labelledby="tab-retro" hidden>
