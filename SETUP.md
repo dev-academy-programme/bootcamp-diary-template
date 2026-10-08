@@ -108,6 +108,21 @@ Wrap your note in double quotes, especially if it has an apostrophe: `diary "It'
 
 When something in a retro would make a good interview answer, copy it into [stories.md](stories.md) as a STAR story.
 
+## Updating the extension
+
+Your diary doesn't get new versions of the extension automatically. When your facilitator says there's a new one, run this in your diary folder:
+
+```bash
+git fetch https://github.com/dev-academy-programme/bootcamp-diary-template.git main
+git checkout FETCH_HEAD -- extension
+git commit -m "Update extension"
+git push
+```
+
+This only replaces the `extension` folder. Your notes and retros aren't touched.
+
+Then go to `chrome://extensions` and click the ↻ reload button on **Dev Academy Diary**. Your settings stay connected.
+
 ## If something goes wrong
 
 | What you see | What to do |
