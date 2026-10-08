@@ -14,7 +14,7 @@ _No retros yet. Save your first one with the Dev Academy Diary extension._
 
 ## 📅 Daily notes
 
-Quick notes from the terminal live in the [entries](entries) folder, one file per day.
+Quick notes and journal entries live in the [entries](entries) folder, one file per day.
 
 ## ⭐ My stories
 

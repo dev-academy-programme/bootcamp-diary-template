@@ -1,6 +1,6 @@
 # Dev Academy Diary: Chrome extension
 
-Save quick notes and Friday retro notes to your diary repo on GitHub, straight from Chrome. The popup also shows your action for this week.
+Save quick notes, journal entries and Friday retro notes to your diary repo on GitHub, straight from Chrome. The popup also shows your action for this week.
 
 Works in Chrome, Edge, Arc and Brave.
 
@@ -23,6 +23,8 @@ Click the extension icon, then **Set up**. The settings page walks you through m
 ## Using it
 
 **Quick note:** click the extension icon, pick 📝 Note, 💡 Learned, 🧱 Stuck or 🎉 Win, type your note and press Enter. It goes into today's file in `entries/`, the same file the `diary` terminal command uses.
+
+**Journal:** open the **Journal** tab for longer writing about your day. Write as much as you like, then click **Save entry** or press ⌘/Ctrl + Enter. It goes into today's file under 📓 Journal, with your line breaks kept.
 
 **Retro notes:**
 
@@ -49,9 +51,9 @@ Your settings stay saved as long as this folder stays in the same place.
 | File | What it does |
 |---|---|
 | `manifest.json` | Extension setup and permissions |
-| `popup.html`, `popup.js` | The popup: quick notes and retro notes |
+| `popup.html`, `popup.js` | The popup: quick notes, journal and retro notes |
 | `options.html`, `options.js` | Settings: repo name and token |
 | `github.js` | Reads and saves files with the GitHub API |
 | `retro.js` | Finds the action in the notes and updates the README |
-| `notes.js` | Adds quick notes to the day's file in `entries/` |
+| `notes.js` | Adds quick notes and journal entries to the day's file in `entries/` |
 | `styles.css` | Shared styles |
