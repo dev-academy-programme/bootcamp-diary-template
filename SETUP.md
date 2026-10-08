@@ -101,7 +101,7 @@ Wrap your note in double quotes, especially if it has an apostrophe: `diary "It'
 ### From Chrome
 
 - **Quick note:** click the extension icon, pick a type of note, type it and press Enter. It goes into the same daily file as the `diary` command.
-- **Journal:** for longer writing about your day. Open the **Journal** tab, write as much as you like, then click **Save entry** (or press ⌘/Ctrl + Enter). It goes into today's file under 📓 Journal, with your line breaks kept.
+- **Journal:** for longer reflections. Open the **Journal** tab, write as much as you like, then click **Save entry** (or press ⌘/Ctrl + Enter). It goes into today's file under 📓 Journal, with your line breaks kept.
 - **Retro notes:** on the retro page, click **Copy my notes**. Then click the extension icon, open **Retro notes**, paste, check the date and click **Save to my diary**. Your action for next week shows at the top of the extension and of your diary's README.
 
 ### Interview stories
