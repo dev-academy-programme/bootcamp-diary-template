@@ -129,6 +129,7 @@ Then go to `chrome://extensions` and click the ↻ reload button on **Dev Academ
 |---|---|
 | `diary: command not found` | Open a new terminal window. If it still happens, go into your diary folder and run `bash install.sh` again. |
 | `Can't find your diary repo` | Your diary folder has moved since you installed. Go into the folder where it is now and run `bash install.sh`, then open a new terminal. |
+| `$'\r': command not found` or `invalid option` (Windows) | The scripts got Windows line endings. In your diary folder, run `git config core.autocrlf false` and then `sed -i 's/\r$//' install.sh .diary/diary.sh`. Then run `bash install.sh` again. |
 | `Saved on this laptop. It will go to GitHub next time...` | You're offline, or GitHub couldn't be reached. Your note is safe. Run `diary sync` later. |
 | Extension: `Your GitHub token isn't working` | Your token has probably expired. Make a new one (step 5 above) and paste it into the extension settings. |
 | Extension: `Your token can't write to this repo` | Edit your token on GitHub and set **Contents** to **Read and write**. |
