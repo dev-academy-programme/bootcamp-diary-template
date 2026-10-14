@@ -16,7 +16,7 @@ You need:
 - Chrome, Edge, Arc or Brave
 
 > [!NOTE]
-> On Windows, run every terminal command in Git Bash or WSL.
+> On Windows, run every terminal command in your Ubuntu terminal (WSL), the same one you use for the rest of bootcamp.
 
 ## 1. Create your diary repo
 
@@ -66,6 +66,14 @@ The extension is already in your diary, in the `extension` folder.
 4. Click the puzzle icon in the toolbar, then the pin next to **Dev Academy Diary**.
 
 Chrome loads the extension from that folder, so don't move or delete it.
+
+> [!TIP]
+> **On Windows, can't find the folder?** In your Ubuntu terminal, run:
+> ```bash
+> cd ~/dev-academy-diary/extension
+> explorer.exe .
+> ```
+> File Explorer opens on the folder. Click its address bar and copy the path. In the **Load unpacked** window, paste it into the address bar and select the folder.
 
 ## 5. Connect the extension to your diary
 
